@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@root/*": ["./src/*"],
+      "@tests/*": ["./tests/*"],
+      "@components/*": ["./src/components/*"],
+      "@common/*": ["./src/components/common/*"],
+      "@hooks/*": ["./src/hooks/*"]
+    }
+  }
+}
