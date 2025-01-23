@@ -118,7 +118,7 @@ export const useTreeNodeActions = (): UseTreeNodeActionsResponse => {
             if (event.metaKey && event.key === 'm') {
                 event.preventDefault();
                 handleAddNode('parent');
-            } else if (event.metaKey && event.key === 'f') {
+            } else if (event.metaKey && event.key === 'p') {
                 event.preventDefault();
                 handleAddNode('leaf');
             } else if (event.metaKey && event.key === 'e') {
@@ -144,8 +144,8 @@ export const useTreeNodeActions = (): UseTreeNodeActionsResponse => {
             onClick: () => handleAddNode('parent'),
         },
         {
-            label: 'Add File',
-            shortcut: '⌘F',
+            label: 'Add Product',
+            shortcut: '⌘P',
             icon: NoteAdd,
             onClick: () => handleAddNode('leaf'),
         },
