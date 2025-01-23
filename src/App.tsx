@@ -1,27 +1,24 @@
-import { CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import React from 'react';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 
-import darkTheme from './themes/darkTheme';
-import lightTheme from './themes/lightTheme';
-
-// Dynamically import the App component from the micro frontend app
-// const MicroFrontendComponent = React.lazy(() => import('microFrontendApp/App'));
-
-const StaleTime = 5 * 60 * 1000; // Consider data fresh (= don't refetch) for 5 minutes
+import { TreeNodeWrapper } from './components/TreeNode/components/TreeNodeWrapper';
+import { TreeContextProvider } from './components/TreeNode/context/TreeContextProvider';
+import { useGetTree } from './services/tree/useGetTree';
+import { useUpdateTree } from './services/tree/useUpdateTree';
+import { useTheme } from './styles/useTheme';
 
 function App() {
-    const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: StaleTime } } });
+    const { theme } = useTheme();
 
-    // Dynamically switch themes based on system preference
-    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-    const theme = prefersDarkMode ? darkTheme : lightTheme;
-    console.log('theme: ', theme);
+    const { getTree } = useGetTree();
+    const tree = getTree();
+    const { updateTree } = useUpdateTree();
 
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <QueryClientProvider client={queryClient}>Hello world</QueryClientProvider>
+            <TreeContextProvider initialTree={tree} onUpdateTree={updateTree}>
+                <TreeNodeWrapper />
+            </TreeContextProvider>
         </ThemeProvider>
     );
 }
