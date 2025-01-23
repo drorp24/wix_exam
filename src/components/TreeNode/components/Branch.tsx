@@ -17,7 +17,6 @@ export const Branch: FC<Omit<Required<TreeNodeProps>, 'node' | 'setNode'>> = mem
 
     const { openContextMenu, handleRightClick } = useTreeNodeContext();
     const { menuActions, newName, handleChangeNode, handleKeyDown } = useTreeNodeActions();
-    console.log('newName: ', newName);
 
     const isMenuOpen = isContextMenuOpen(nodeRef.current);
 

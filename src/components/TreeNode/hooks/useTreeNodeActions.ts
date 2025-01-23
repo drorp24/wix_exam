@@ -115,14 +115,17 @@ export const useTreeNodeActions = (): UseTreeNodeActionsResponse => {
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
-            event.preventDefault();
             if (event.metaKey && event.key === 'm') {
+                event.preventDefault();
                 handleAddNode('parent');
             } else if (event.metaKey && event.key === 'f') {
+                event.preventDefault();
                 handleAddNode('leaf');
             } else if (event.metaKey && event.key === 'e') {
+                event.preventDefault();
                 handleEditNode();
             } else if (event.metaKey && event.key === 'd') {
+                event.preventDefault();
                 handleDeleteNode();
             }
         };
