@@ -1,5 +1,5 @@
 import { MoreVert } from '@mui/icons-material';
-import { Box, IconButton, Stack, TextField, Typography } from '@mui/material';
+import { Box, ClickAwayListener, IconButton, Stack, TextField, Typography } from '@mui/material';
 import { FC, memo, useRef } from 'react';
 
 import { TreeNodeProps } from '..';
@@ -15,48 +15,50 @@ export const Branch: FC<Omit<Required<TreeNodeProps>, 'node' | 'setNode'>> = mem
     const Icon = nodeTypeIcon[type];
     const expandable = type === 'parent' && node.nodes?.length;
 
-    const { openContextMenu, handleRightClick } = useTreeNodeContext();
+    const { openContextMenu, closeContextMenu, handleRightClick } = useTreeNodeContext();
     const { menuActions, newName, handleChangeNode, handleKeyDown } = useTreeNodeActions();
 
     const isMenuOpen = isContextMenuOpen(nodeRef.current);
 
     return (
-        <>
-            <Stack
-                ref={nodeRef}
-                flexDirection='row'
-                alignItems='center'
-                gap={1}
-                sx={{
-                    height: `${branchHeight}rem`,
-                    '&:hover': { cursor: 'default' },
-                    width: 'max-content',
-                    zIndex: 1301,
-                }}
-                onContextMenu={handleRightClick}>
-                <Box sx={{ visibility: expandable ? 'visible' : 'hidden' }}>
-                    <ExpandButton />
-                </Box>
-                <Icon color='primary' />
-                {node.id === editedNodeId ? (
-                    <TextField
-                        variant='outlined'
-                        value={newName}
-                        onChange={handleChangeNode}
-                        onKeyDown={handleKeyDown}
-                        sx={{ p: 0, '& input': { p: 1 } }}
-                        focused
-                        autoFocus
-                    />
-                ) : (
-                    <Typography>{name}</Typography>
-                )}
-                <IconButton onClick={openContextMenu}>
-                    <MoreVert color='primary' />
-                </IconButton>
-            </Stack>
-            <TreeNodeContextMenu menuActions={menuActions} isMenuOpen={isMenuOpen} />
-        </>
+        <ClickAwayListener onClickAway={closeContextMenu}>
+            <>
+                <Stack
+                    ref={nodeRef}
+                    flexDirection='row'
+                    alignItems='center'
+                    gap={1}
+                    sx={{
+                        height: `${branchHeight}rem`,
+                        '&:hover': { cursor: 'default' },
+                        width: 'max-content',
+                        zIndex: 1301,
+                    }}
+                    onContextMenu={handleRightClick(node)}>
+                    <Box sx={{ visibility: expandable ? 'visible' : 'hidden' }}>
+                        <ExpandButton />
+                    </Box>
+                    <Icon color='primary' />
+                    {node.id === editedNodeId ? (
+                        <TextField
+                            variant='outlined'
+                            value={newName}
+                            onChange={handleChangeNode}
+                            onKeyDown={handleKeyDown}
+                            sx={{ p: 0, '& input': { p: 1 } }}
+                            focused
+                            autoFocus
+                        />
+                    ) : (
+                        <Typography>{name}</Typography>
+                    )}
+                    <IconButton onClick={openContextMenu}>
+                        <MoreVert color='primary' />
+                    </IconButton>
+                </Stack>
+                <TreeNodeContextMenu menuActions={menuActions} isMenuOpen={isMenuOpen} />
+            </>
+        </ClickAwayListener>
     );
 });
 

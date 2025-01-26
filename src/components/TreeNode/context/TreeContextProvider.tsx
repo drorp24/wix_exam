@@ -12,6 +12,7 @@ interface TreeContextProviderProps {
 export const TreeContextProvider: FC<TreeContextProviderProps> = ({ children, initialTree, onUpdateTree }) => {
     const [tree, setTree] = useState<Node>(initialTree);
     const [nodeMenuEl, setNodeMenuEl] = useState<null | HTMLElement>(null);
+    const [openMenuNode, setOpenMenuNode] = useState<Node | null>(null);
 
     const updateTree = useCallback(
         (tree: Node) => {
@@ -27,8 +28,10 @@ export const TreeContextProvider: FC<TreeContextProviderProps> = ({ children, in
             setTree: updateTree,
             nodeMenuEl,
             setNodeMenuEl,
+            openMenuNode,
+            setOpenMenuNode,
         }),
-        [tree, updateTree, nodeMenuEl]
+        [tree, updateTree, nodeMenuEl, openMenuNode]
     );
 
     return <TreeContext.Provider value={value}>{children}</TreeContext.Provider>;

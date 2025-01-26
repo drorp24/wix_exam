@@ -19,7 +19,7 @@ export interface UseTreeNodeActionsResponse {
 // However, local node state would make it harder to obtain the entire tree state, which is
 // essential when that state is required to be persisted to a backend system or controlled by a parent component.
 export const useTreeNodeActions = (): UseTreeNodeActionsResponse => {
-    const { tree, setTree } = useTreeContext();
+    const { tree, setTree, openMenuNode } = useTreeContext();
     const { node, setEditedNodeId, closeContextMenu } = useTreeNodeContext();
     const [newName, setNewName] = useState(node.name);
 
@@ -114,6 +114,8 @@ export const useTreeNodeActions = (): UseTreeNodeActionsResponse => {
     }, [node.id, setTree, tree]);
 
     useEffect(() => {
+        if (node.id !== openMenuNode?.id) return;
+
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.metaKey && event.key === 'm') {
                 event.preventDefault();
@@ -134,7 +136,7 @@ export const useTreeNodeActions = (): UseTreeNodeActionsResponse => {
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, [handleAddNode, handleEditNode, handleDeleteNode]);
+    }, [handleAddNode, handleEditNode, handleDeleteNode, openMenuNode, node.id]);
 
     const menuActions: MenuAction[] = [
         {

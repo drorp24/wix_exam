@@ -37,6 +37,8 @@ export type TreeContextValue = {
     setTree: (tree: Node) => void;
     nodeMenuEl: null | HTMLElement;
     setNodeMenuEl: React.Dispatch<React.SetStateAction<null | HTMLElement>>;
+    openMenuNode: Node | null;
+    setOpenMenuNode: React.Dispatch<React.SetStateAction<Node | null>>;
 };
 
 export const DefaultNodeTypeIcon: Record<NodeType, ElementType> = {
