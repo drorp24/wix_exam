@@ -10,7 +10,7 @@ import { useTreeNodeActions } from '../hooks/useTreeNodeActions';
 
 export const Branch: FC<Omit<Required<TreeNodeProps>, 'node' | 'setNode'>> = memo(({ nodeTypeIcon, branchHeight }) => {
     const nodeRef = useRef<HTMLDivElement>(null);
-    const { node, editedNodeId, isContextMenuOpen } = useTreeNodeContext();
+    const { node, editedNodeId, setEditedNodeId, isContextMenuOpen } = useTreeNodeContext();
     const { name, type } = node;
     const Icon = nodeTypeIcon[type];
     const expandable = type === 'parent' && node.nodes?.length;
@@ -20,9 +20,15 @@ export const Branch: FC<Omit<Required<TreeNodeProps>, 'node' | 'setNode'>> = mem
 
     const isMenuOpen = isContextMenuOpen(nodeRef.current);
 
+    const handleClickAway = () => {
+        console.log('handleClickAway. editedNodeId: ', editedNodeId);
+        if (editedNodeId) setEditedNodeId(null);
+        closeContextMenu();
+    };
+
     return (
-        <ClickAwayListener onClickAway={closeContextMenu}>
-            <>
+        <ClickAwayListener onClickAway={handleClickAway}>
+            <div>
                 <Stack
                     ref={nodeRef}
                     flexDirection='row'
@@ -57,7 +63,7 @@ export const Branch: FC<Omit<Required<TreeNodeProps>, 'node' | 'setNode'>> = mem
                     </IconButton>
                 </Stack>
                 <TreeNodeContextMenu menuActions={menuActions} isMenuOpen={isMenuOpen} />
-            </>
+            </div>
         </ClickAwayListener>
     );
 });
