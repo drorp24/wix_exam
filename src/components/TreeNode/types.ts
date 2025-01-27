@@ -28,8 +28,6 @@ export type Node = ParentNode | LeafNode;
 export type TreeNodeContextValue = UseToggleResponse &
     UseContextMenuResponse & {
         node: Node;
-        editedNodeId: number | null;
-        setEditedNodeId: React.Dispatch<React.SetStateAction<number | null>>;
     };
 
 export type TreeContextValue = {
@@ -39,6 +37,8 @@ export type TreeContextValue = {
     setNodeMenuEl: React.Dispatch<React.SetStateAction<null | HTMLElement>>;
     openMenuNode: Node | null;
     setOpenMenuNode: React.Dispatch<React.SetStateAction<Node | null>>;
+    editedNodeId: number | null;
+    setEditedNodeId: React.Dispatch<React.SetStateAction<number | null>>;
 };
 
 export const DefaultNodeTypeIcon: Record<NodeType, ElementType> = {

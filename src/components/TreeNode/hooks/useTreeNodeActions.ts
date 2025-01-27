@@ -19,8 +19,8 @@ export interface UseTreeNodeActionsResponse {
 // However, local node state would make it harder to obtain the entire tree state, which is
 // essential when that state is required to be persisted to a backend system or controlled by a parent component.
 export const useTreeNodeActions = (): UseTreeNodeActionsResponse => {
-    const { tree, setTree, openMenuNode } = useTreeContext();
-    const { node, setEditedNodeId, closeContextMenu } = useTreeNodeContext();
+    const { tree, setTree, openMenuNode, setEditedNodeId } = useTreeContext();
+    const { node, closeContextMenu, toggleOpen } = useTreeNodeContext();
     const [newName, setNewName] = useState(node.name);
 
     const handleAddNode = useCallback(
@@ -51,8 +51,9 @@ export const useTreeNodeActions = (): UseTreeNodeActionsResponse => {
             };
 
             setTree(updateTree(tree!));
+            toggleOpen();
         },
-        [node.id, setTree, tree]
+        [node.id, setTree, toggleOpen, tree]
     );
 
     const handleEditNode = useCallback(() => {

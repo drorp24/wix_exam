@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from 'react';
+import { FC, useMemo } from 'react';
 
 import { useToggle } from '@root/hooks/useToggle';
 
@@ -14,7 +14,6 @@ interface TreeNodeContextProviderProps {
 export const TreeNodeContextProvider: FC<TreeNodeContextProviderProps> = ({ node, children }) => {
     const { open, toggleOpen } = useToggle();
     const { openContextMenu, isContextMenuOpen, closeContextMenu, handleRightClick } = useContextMenu();
-    const [editedNodeId, setEditedNodeId] = useState<number | null>(null);
 
     const value = useMemo(
         () => ({
@@ -24,21 +23,9 @@ export const TreeNodeContextProvider: FC<TreeNodeContextProviderProps> = ({ node
             openContextMenu,
             isContextMenuOpen,
             closeContextMenu,
-            editedNodeId,
-            setEditedNodeId,
             handleRightClick,
         }),
-        [
-            closeContextMenu,
-            isContextMenuOpen,
-            node,
-            open,
-            openContextMenu,
-            toggleOpen,
-            editedNodeId,
-            setEditedNodeId,
-            handleRightClick,
-        ]
+        [closeContextMenu, isContextMenuOpen, node, open, openContextMenu, toggleOpen, handleRightClick]
     );
 
     return <TreeNodeContext.Provider value={value}>{children}</TreeNodeContext.Provider>;
